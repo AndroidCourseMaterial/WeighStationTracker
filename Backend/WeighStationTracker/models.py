@@ -15,13 +15,16 @@ from google.appengine.ext import ndb
 class WeighStation(EndpointsModel):
     _message_fields_schema = ('id', 'name', 'latitude', 'longitude', 'state', 'route', 'mile_marker', 'location_description')
     name = ndb.StringProperty()
+#    location = ndb.GeoPtProperty()
     latitude = ndb.FloatProperty()
     longitude = ndb.FloatProperty()
+    distance_to_target = ndb.FloatProperty()
     state = ndb.StringProperty()
     route = ndb.StringProperty()
     mile_marker = ndb.FloatProperty()
     location_description = ndb.StringProperty()
     last_touch_date_time = ndb.DateTimeProperty(auto_now=True)    
+
 
 class WeighStationStatus(EndpointsModel):
     _message_fields_schema = ('id', 'weigh_station_id', 'email', 'status', 'last_touch_date_time')
@@ -29,4 +32,11 @@ class WeighStationStatus(EndpointsModel):
     email = ndb.StringProperty()
     status = ndb.StringProperty()
     last_touch_date_time = ndb.DateTimeProperty(auto_now=True)    
+    
+class WeighStationLocationMessage(EndpointsModel):
+    latitude = ndb.FloatProperty()
+    longitude = ndb.FloatProperty()
+    limit = ndb.IntegerProperty()
+    weigh_stations = ndb.LocalStructuredProperty(WeighStation, repeated=True)
+     
     
